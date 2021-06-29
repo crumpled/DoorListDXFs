@@ -23,7 +23,10 @@
             .addLayer('CW_CONVENTIONAL', Drawing.ACI.GREEN, 'CONTINUOUS')
             .setActiveLayer('CW_CONVENTIONAL')
             .drawLine(oversize, width, oversize, width-stileWidth)
-            .drawLine(oversize+height, 0, oversize+height, stileWidth);
+            .drawLine(oversize+height, 0, oversize+height, stileWidth)
+            .addLayer('CW_CLIMBING', Drawing.ACI.WHITE, 'CONTINUOUS')
+            .setActiveLayer('CW_CLIMBING')
+            .drawPolyline([[oversize,0],[oversize,width],[oversize+height,width],[oversize+height,0]]);
 
             var b = new Blob([d.toDxfString()], {type: 'application/dxf'});
             document.getElementById('dxf').href = URL.createObjectURL(b);
