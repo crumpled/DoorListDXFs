@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoorListDXFs</title>
+    <script src="js-dxf-bundle.js"></script>
+<script>
+        var Drawing = require('Drawing');
+        window.onload = function()
+        {
+            d = new Drawing();
+
+            d.addLayer('CCW_CONVENTIONAL', Drawing.ACI.YELLOW, 'CONTINUOUS')
+            .setActiveLayer('CCW_CONVENTIONAL')
+            .drawCircle(50, -30, 25);
+
+            var b = new Blob([d.toDxfString()], {type: 'application/dxf'});
+            document.getElementById('dxf').href = URL.createObjectURL(b);
+        }
+</script>
+</head>
+<body>
+    <a href="" id="dxf" download="demo.dxf">demo.dxf</a>
+
+
+</body>
+</html>

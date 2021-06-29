@@ -1,0 +1,21 @@
+{
+  "name": "doorlistdxfs",
+  "version": "1.0.0",
+  "description": "Creates DXFs of 5-piece doors for CAM/CNC sizing, given a CSV door list",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crumpled/DoorListDXFs.git"
+  },
+  "author": "Sierra Hardware Products, Inc.",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/crumpled/DoorListDXFs/issues"
+  },
+  "homepage": "https://github.com/crumpled/DoorListDXFs#readme",
+  "dependencies": {
+    "dxf-writer": "^1.8.0"
+  }
+}
