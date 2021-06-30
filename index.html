@@ -1,41 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DoorListDXFs</title>
     <script src="js-dxf-bundle.js"></script>
-<script>
+    <script>
         var oversize = 0.0625; // 1/16" oversized on 3 sides
-        var stileWidth  = 2; 
+        var stileWidth = 2;
         var height = 24;
         var width = 13.5;
-
         var Drawing = require('Drawing');
-        window.onload = function()
-        {
-            d = new Drawing();
 
+        function makeDXF(oversize_param, stileWidth_param, height_param, width_param) {
+            var d = new Drawing(),
+                title = "" + width_param + "W_" + height_param + "H_" + stileWidth_param + "Stiles_" + oversize_param + "over.dxf",
+                titleNode = document.createTextNode(title),
+                b, link;
             d.addLayer('CCW_CONVENTIONAL', Drawing.ACI.YELLOW, 'CONTINUOUS')
-            .setActiveLayer('CCW_CONVENTIONAL')
-            .drawLine(oversize, 0, oversize, stileWidth)
-            .drawLine(oversize+height, width, oversize+height, width-stileWidth)
-            .addLayer('CW_CONVENTIONAL', Drawing.ACI.GREEN, 'CONTINUOUS')
-            .setActiveLayer('CW_CONVENTIONAL')
-            .drawLine(oversize, width, oversize, width-stileWidth)
-            .drawLine(oversize+height, 0, oversize+height, stileWidth)
-            .addLayer('CW_CLIMBING', Drawing.ACI.WHITE, 'CONTINUOUS')
-            .setActiveLayer('CW_CLIMBING')
-            .drawPolyline([[oversize,0],[oversize,width],[oversize+height,width],[oversize+height,0]]);
+                .setActiveLayer('CCW_CONVENTIONAL')
+                .drawLine(oversize_param, 0, oversize_param, stileWidth_param)
+                .drawLine(oversize_param + height_param, width_param, oversize_param + height_param, width_param - stileWidth_param)
+                .addLayer('CW_CONVENTIONAL', Drawing.ACI.GREEN, 'CONTINUOUS')
+                .setActiveLayer('CW_CONVENTIONAL')
+                .drawLine(oversize_param, width_param, oversize_param, width_param - stileWidth_param)
+                .drawLine(oversize_param + height_param, 0, oversize_param + height_param, stileWidth_param)
+                .addLayer('CW_CLIMBING', Drawing.ACI.WHITE, 'CONTINUOUS')
+                .setActiveLayer('CW_CLIMBING')
+                .drawPolyline([[oversize_param, 0], [oversize_param, width_param], [oversize_param + height_param, width_param], [oversize + height_param, 0]]);
 
-            var b = new Blob([d.toDxfString()], {type: 'application/dxf'});
-            document.getElementById('dxf').href = URL.createObjectURL(b);
+            b = new Blob([d.toDxfString()], { type: 'application/dxf' });
+            link = document.createElement("a");
+            link.href = URL.createObjectURL(b);
+            link.download = title;
+            link.appendChild(titleNode);
+            document.body.appendChild(link);
+
         }
-</script>
+
+        window.onload = function () {
+            makeDXF(oversize, stileWidth, height, width);
+        }
+    </script>
 </head>
+
 <body>
-    <a href="" id="dxf" download="demo.dxf">demo.dxf</a>
 
 
 </body>
+
 </html>
