@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DoorListDXFs</title>
     <script src="js-dxf-bundle.js"></script>
+    <script src="node_modules/papaparse/papaparse.js"></script>
     <script>
-        var oversize = 0.0625; // 1/16" oversized on 3 sides
-        var stileWidth = 2;
-        var height = 24;
-        var width = 13.5;
+        // var oversize = 0.0625; // 1/16" oversized on 3 sides
+        // var stileWidth = 2;
+        // var height = 24;
+        // var width = 13.5;
         var Drawing = require('Drawing');
 
         function makeDXF(oversize_param, stileWidth_param, height_param, width_param) {
@@ -28,7 +29,7 @@
                 .drawLine(oversize_param + height_param, 0, oversize_param + height_param, stileWidth_param)
                 .addLayer('CW_CLIMBING', Drawing.ACI.WHITE, 'CONTINUOUS')
                 .setActiveLayer('CW_CLIMBING')
-                .drawPolyline([[oversize_param, 0], [oversize_param, width_param], [oversize_param + height_param, width_param], [oversize + height_param, 0]]);
+                .drawPolyline([[oversize_param, 0], [oversize_param, width_param], [oversize_param + height_param, width_param], [oversize_param + height_param, 0]]);
 
             b = new Blob([d.toDxfString()], { type: 'application/dxf' });
             link = document.createElement("a");
@@ -36,17 +37,34 @@
             link.download = title;
             link.appendChild(titleNode);
             document.body.appendChild(link);
+            document.body.appendChild(document.createElement("br"));
 
         }
 
         window.onload = function () {
-            makeDXF(oversize, stileWidth, height, width);
+            // makeDXF(oversize, stileWidth, height, width);
+            const inputElement = document.getElementById("filepicker");
+            function parseFile() {
+                const file = this.files[0];
+                Papa.parse(file, {
+                    header: true,
+                    step: function (attr){
+                        var data = attr.data;
+                        makeDXF(parseFloat(data.oversize), parseFloat(data.stileWidth), parseFloat(data.height), parseFloat(data.width));
+                    },
+                    complete: undefined,
+                    error: undefined,
+                    skipEmptyLines: true
+                });
+            }
+            inputElement.addEventListener("change", parseFile, false);
         }
     </script>
 </head>
 
 <body>
-
+    <a href="example.csv" download="example.csv">Download Sample CSV format</a><br>
+    <input type="file" id="filepicker"><br><br>
 
 </body>
 

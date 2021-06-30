@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/crumpled/DoorListDXFs#readme",
   "dependencies": {
-    "dxf-writer": "^1.8.0"
+    "dxf-writer": "^1.8.0",
+    "papaparse": "^5.3.1"
   }
 }
